@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: function-input
+data:
+  resources: |-
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: test-data-2
+      namespace: default
+    data:
+      apple: pear
+    ---
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: test-data
+      namespace: default
+    data:
+      key: value

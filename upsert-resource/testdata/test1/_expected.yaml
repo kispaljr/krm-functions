@@ -1,0 +1,68 @@
+apiVersion: config.kubernetes.io/v1
+kind: ResourceList
+items:
+- apiVersion: kpt.dev/v1
+  kind: Kptfile
+  metadata:
+    name: testpkg
+  pipeline:
+    mutators:
+    - image: ghcr.io/kispaljr/upsert-resource:v1
+      configMap:
+        resources: |-
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: test-data
+            namespace: default
+          data:
+            inserted-key: test-value
+          ---
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: test-data-2
+            namespace: default
+          data:
+            inserted-key: test-value
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: test-data
+    namespace: default
+    annotations:
+      internal.config.kubernetes.io/path: resources.yaml
+      internal.config.kubernetes.io/index: "1"
+  data:
+    key: value
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: test-data-2
+    namespace: default
+    annotations:
+      internal.config.kubernetes.io/path: injected_by_upsert-resource-fn.yaml
+  data:
+    apple: pear
+functionConfig:
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: function-input
+  data:
+    resources: |-
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: test-data-2
+        namespace: default
+      data:
+        apple: pear
+      ---
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: test-data
+        namespace: default
+      data:
+        key: value
