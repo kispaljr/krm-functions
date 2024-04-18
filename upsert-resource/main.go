@@ -38,7 +38,11 @@ func Run(rl *fn.ResourceList) (success bool, err error) {
 			}
 		}
 		if idx == -1 {
-			err = inKobj.SetAnnotation(kioutil.PathAnnotation, "injected_by_upsert-resource-fn.yaml")
+			path := inKobj.GetName()
+			if path == "" {
+				path = "injected_by_upsert-resource-fn"
+			}
+			err = inKobj.SetAnnotation(kioutil.PathAnnotation, path+".yaml")
 			if err != nil {
 				rl.LogResult(err)
 				return
