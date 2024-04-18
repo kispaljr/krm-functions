@@ -1,0 +1,30 @@
+apiVersion: config.kubernetes.io/v1
+kind: ResourceList
+items:
+- apiVersion: kpt.dev/v1
+  kind: Kptfile
+  metadata:
+    annotations:
+      config.kubernetes.io/local-config: "true"
+    name: testpkg
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    annotations:
+      config.kubernetes.io/local-config: "true"
+      internal.config.kubernetes.io/path: "resources.yaml"
+      internal.config.kubernetes.io/index: "1"
+    name: test-data
+    namespace: default
+  data:
+    newKey: newValue
+    apple: plum
+functionConfig:
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: function-input
+  data:
+    targetName: test-data
+    newKey: newValue
+    apple: plum

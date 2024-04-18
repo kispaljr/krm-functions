@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: function-input
+data:
+  targetName: parameters
+  newKey: newValue
+  apple: plum
+
