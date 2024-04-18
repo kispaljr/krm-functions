@@ -16,7 +16,7 @@
             }
         },
         {
-            "name": "Overwrite golden output",
+            "name": "Overwrite golden test DB",
             "type": "go",
             "request": "launch",
             "mode": "test",

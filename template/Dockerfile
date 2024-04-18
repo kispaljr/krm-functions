@@ -1,5 +1,3 @@
-#target: ghcr.io/kispaljr/template-fn:v1
-
 FROM golang:1.21-alpine
 ENV CGO_ENABLED=0
 WORKDIR /go/src/
