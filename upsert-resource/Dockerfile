@@ -1,4 +1,4 @@
-#target: ghcr.io/kispaljr/upsert-resource:v1
+#target: ghcr.io/kispaljr/upsert-resource:v1.1
 
 FROM golang:1.21-alpine
 ENV CGO_ENABLED=0

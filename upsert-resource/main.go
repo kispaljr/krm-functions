@@ -38,17 +38,24 @@ func Run(rl *fn.ResourceList) (success bool, err error) {
 			}
 		}
 		if idx == -1 {
-			path := inKobj.GetName()
-			if path == "" {
-				path = "injected_by_upsert-resource-fn"
-			}
-			err = inKobj.SetAnnotation(kioutil.PathAnnotation, path+".yaml")
-			if err != nil {
-				rl.LogResult(err)
-				return
+			// insert new resource
+			if inKobj.PathAnnotation() == "" {
+				// give a reasonable default value for the Path annotation if it's not set
+				path := inKobj.GetName()
+				if path == "" {
+					path = "injected_by_upsert-resource-fn"
+				}
+				err = inKobj.SetAnnotation(kioutil.PathAnnotation, path+".yaml")
+				if err != nil {
+					rl.LogResult(err)
+					return
+				}
 			}
 			rl.Items = append(rl.Items, inKobj)
 		} else {
+			// update existing resource
+
+			// copy Path and Index annotations from existing resource
 			err = inKobj.SetAnnotation(kioutil.PathAnnotation, rl.Items[idx].PathAnnotation())
 			if err != nil {
 				rl.LogResult(err)
@@ -59,6 +66,7 @@ func Run(rl *fn.ResourceList) (success bool, err error) {
 				rl.LogResult(err)
 				return
 			}
+			// overwrite existing resource
 			rl.Items[idx] = inKobj
 		}
 	}
